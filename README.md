@@ -14,6 +14,20 @@ node tools/serve.mjs
 
 Saytni istalgan statik hostingga (Netlify, GitHub Pages, Cloudflare Pages, oddiy hosting) papkani shundayligicha yuklash bilan joylash mumkin — server sozlamalari kerak emas (sahifalar `#/…` manzillari bilan ishlaydi).
 
+## Netlify'ga joylash
+
+Jonli sayt: https://tez-tibbiy-yordam-platformasi.netlify.app
+
+`netlify.toml` tayyor: build komandasi `node tools/prepare-dist.mjs` faqat kerakli fayllarni (`index.html`, `css/`, `js/`, `assets/`) `dist/` ga yig'adi — `design/` va `tools/` saytga chiqmaydi.
+
+Yangilash (kontentni o'zgartirgandan keyin):
+
+```bash
+npx netlify-cli deploy --prod --dir=dist --site 7787334a-4315-48af-87fa-dcd1d8794375
+```
+
+(avval `node tools/prepare-dist.mjs` ni ishga tushiring). Netlify'ni GitHub repozitoriyga ulasangiz (Netlify → Add new project → Import from Git), har `git push` dan keyin sayt o'zi yangilanadi.
+
 ## Bo'limlar
 
 | Manzil | Bo'lim |
