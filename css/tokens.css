@@ -1,0 +1,150 @@
+/* Hallmark · locked system: design/clinical_clarity/DESIGN.md · genre: modern-minimal (clinical) · tone: utilitarian
+ * theme: Clinical Clarity (user-supplied) · macrostructure: app-shell hub (user designs) · studied: no
+ * pre-emit critique: P5 H4 E4 S4 R5 V4
+ */
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("../assets/fonts/pjs-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("../assets/fonts/pjs-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Material Symbols Outlined";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../assets/fonts/material-symbols.woff2") format("woff2");
+}
+
+:root {
+  /* ── Colour: core roles ─────────────────────────────── */
+  --color-primary: #1a3a5c;
+  --color-primary-deep: #0e2338;
+  --color-primary-soft: #436084;
+  --color-emergency: #c41e3a;
+  --color-emergency-dark: #a3172f;
+  --color-emergency-tint: #fee2e2;
+  --color-action: #f5a623;
+  --color-action-hover: #e09217;
+  --color-action-tint: #fef3c7;
+  --color-action-ink: #92400e;
+  --color-ink: #0f172a;
+  --color-ink-2: #475569;
+  --color-ink-3: #64748b;
+
+  /* ── Colour: surfaces ───────────────────────────────── */
+  --color-canvas: #f8fafc;
+  --color-surface: #ffffff;
+  --color-ice: #ebf3fa;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+  --color-track: #e2e8f0;
+  --color-ice-hover: #dbe8f5;
+  --color-action-tint-hover: #fdeaa9;
+  --color-success: #047857;
+  --color-success-tint: #d1fae5;
+  --color-on-dark: #ffffff;
+  --color-on-dark-2: #abc9f2;
+  --color-scrim: rgba(15, 23, 42, 0.45);
+  --color-focus: rgba(26, 58, 92, 0.18);
+
+  /* ── Colour: the seven shields ──────────────────────── */
+  --shield-heart: #c41e3a;
+  --shield-breath: #0369a1;
+  --shield-brain: #6d28d9;
+  --shield-life: #1a3a5c;
+  --shield-child: #f5a623;
+  --shield-mother: #be185d;
+  --shield-trauma: #047857;
+  --shield-tox: #b45309;
+  --shield-heart-tint: #fee2e2;
+  --shield-breath-tint: #e0f2fe;
+  --shield-brain-tint: #ede9fe;
+  --shield-life-tint: #ebf3fa;
+  --shield-child-tint: #fef3c7;
+  --shield-mother-tint: #fce7f3;
+  --shield-trauma-tint: #d1fae5;
+  --shield-tox-tint: #ffedd5;
+
+  /* ── Type ───────────────────────────────────────────── */
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-icons: "Material Symbols Outlined";
+  --text-xs: 0.6875rem;   /* label-sm 11 */
+  --text-sm: 0.75rem;     /* label-md 12 */
+  --text-body-sm: 0.8125rem; /* 13 */
+  --text-md: 0.875rem;    /* body-md 14 */
+  --text-base: 1rem;      /* body-lg 16 */
+  --text-lg: 1.125rem;    /* title-lg 18 */
+  --text-xl: 1.25rem;     /* headline-sm 20 */
+  --text-2xl: 1.5rem;     /* headline-md 24 */
+  --text-3xl: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);       /* headline-lg 24→32 */
+  --text-4xl: clamp(1.875rem, 1.4rem + 1.9vw, 2.5rem);   /* headline-xl 30→40 */
+  --text-hero: clamp(1.875rem, 1.2rem + 3vw, 3.25rem);
+  --leading-tight: 1.2;
+  --leading-body: 1.62;
+
+  /* ── Space (4-pt) ───────────────────────────────────── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --gutter: 1rem;
+  --page-margin: 1rem;
+  --page-max: 1280px;
+  --measure: 68ch;
+
+  /* ── Shape ──────────────────────────────────────────── */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Elevation ──────────────────────────────────────── */
+  --shadow-1: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --shadow-2: 0 4px 6px -1px rgba(26, 58, 92, 0.07), 0 2px 4px -2px rgba(26, 58, 92, 0.05);
+  --shadow-3: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
+
+  /* ── Motion ─────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.9, 0.4);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+
+  /* ── Chrome sizes ───────────────────────────────────── */
+  --header-h: 4rem;
+  --bottomnav-h: 4.25rem;
+  --touch: 3rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 1.5rem;
+    --page-margin: 1.5rem;
+    --header-h: 4.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --page-margin: 2.5rem;
+  }
+}

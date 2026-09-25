@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Tez Tibbiy Yordam Qalqonlari</title>
+  <meta name="description" content="Tez tibbiy yordam xodimlari va aholi uchun bilim, tajriba va foydali ma'lumotlar platformasi: klinik protokollar, brigada jihozlari, dorilar, test markazi va 103 ni chaqirish bo'yicha yo'riqnoma." />
+  <meta name="theme-color" content="#1a3a5c" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="assets/fonts/pjs-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Asosiy tarkibga o'tish</a>
+
+  <header class="site-header" id="site-header"></header>
+  <main id="main" tabindex="-1">
+    <noscript>
+      <div class="container page"><div class="callout callout--critical"><span class="ms">warning</span><div><div class="callout__title">JavaScript o'chirilgan</div>Sayt ishlashi uchun JavaScript kerak. Hayot uchun xavfli holatda darhol 103 raqamiga qo'ng'iroq qiling.</div></div></div>
+    </noscript>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <nav class="bottom-nav" id="bottom-nav" aria-label="Asosiy bo'limlar"></nav>
+
+  <!-- Umumiy oyna (103 qo'llanmasi, jihozlar, video) -->
+  <dialog id="sheet" class="sheet" aria-labelledby="sheet-title">
+    <div class="sheet__body">
+      <header class="sheet__head">
+        <h2 id="sheet-title"></h2>
+        <button class="icon-btn" type="button" data-close aria-label="Yopish"><span class="ms" aria-hidden="true">close</span></button>
+      </header>
+      <div class="sheet__scroll" id="sheet-body"></div>
+      <footer class="sheet__foot" id="sheet-foot"></footer>
+    </div>
+  </dialog>
+
+  <!-- Qidiruv -->
+  <dialog id="search" class="sheet search-dlg" aria-label="Qidiruv">
+    <div class="sheet__body">
+      <div class="sheet__head">
+        <label class="field grow">
+          <span class="ms" aria-hidden="true">search</span>
+          <input id="search-input" type="search" placeholder="Mavzu, dori yoki jihoz qidiring…" autocomplete="off" aria-label="Qidiruv" />
+        </label>
+        <button class="icon-btn" type="button" data-close aria-label="Yopish"><span class="ms" aria-hidden="true">close</span></button>
+      </div>
+      <div class="sheet__scroll search-results" id="search-results"></div>
+    </div>
+  </dialog>
+
+  <!-- Menyu (mobil) -->
+  <dialog id="menu" class="drawer" aria-label="Menyu"></dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/data/topics.js"></script>
+  <script src="js/data/equipment.js"></script>
+  <script src="js/data/drugs.js"></script>
+  <script src="js/data/shields.js"></script>
+  <script src="js/data/documents.js"></script>
+  <script src="js/data/videos.js"></script>
+  <script src="js/data/citizen.js"></script>
+  <script src="js/data/questions.js"></script>
+  <script src="js/views/common.js"></script>
+  <script src="js/views/home.js"></script>
+  <script src="js/views/school.js"></script>
+  <script src="js/views/topic.js"></script>
+  <script src="js/views/brigade.js"></script>
+  <script src="js/views/drugs.js"></script>
+  <script src="js/views/test.js"></script>
+  <script src="js/views/misc.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
