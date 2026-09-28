@@ -1,0 +1,22 @@
+[
+  {
+    "key": "reanimatsiya",
+    "label": "Reanimatsiya",
+    "tone": "heart"
+  },
+  {
+    "key": "yurak",
+    "label": "Yurak",
+    "tone": "life"
+  },
+  {
+    "key": "nafas",
+    "label": "Nafas va allergiya",
+    "tone": "breath"
+  },
+  {
+    "key": "nevro",
+    "label": "Nevrologiya",
+    "tone": "brain"
+  }
+]

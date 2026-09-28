@@ -1,0 +1,14 @@
+[
+  {
+    "key": "serial",
+    "label": "Serial"
+  },
+  {
+    "key": "talim",
+    "label": "Tibbiy ta'lim"
+  },
+  {
+    "key": "aholi",
+    "label": "Aholi uchun"
+  }
+]

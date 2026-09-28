@@ -1,0 +1,22 @@
+[
+  {
+    "key": "ssv",
+    "label": "SSV buyruqlari",
+    "icon": "gavel"
+  },
+  {
+    "key": "prezident",
+    "label": "Prezident qarorlari",
+    "icon": "account_balance"
+  },
+  {
+    "key": "vm",
+    "label": "Vazirlar Mahkamasi",
+    "icon": "description"
+  },
+  {
+    "key": "protokol",
+    "label": "Klinik protokollar",
+    "icon": "clinical_notes"
+  }
+]

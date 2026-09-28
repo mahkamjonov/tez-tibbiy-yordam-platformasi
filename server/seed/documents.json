@@ -1,0 +1,49 @@
+[
+  {
+    "id": "namuna-ssv",
+    "type": "ssv",
+    "title": "SSV buyrug'i — nomi shu yerga kiritiladi",
+    "number": "№ —",
+    "date": "",
+    "audience": "Tez yordam xodimlari",
+    "summary": "Hujjatning asosiy mazmuni shu yerda 2–3 gapda yoziladi: nimani tartibga soladi, kimlarga tegishli va qaysi holatlarda qo'llaniladi.",
+    "memo": [
+      "Eslab qolish uchun birinchi asosiy qoida",
+      "Ikkinchi qoida yoki muhim muddat/raqam",
+      "Uchinchi qoida yoki istisno"
+    ],
+    "pdf": "",
+    "demo": true
+  },
+  {
+    "id": "namuna-prezident",
+    "type": "prezident",
+    "title": "Prezident qarori — nomi shu yerga kiritiladi",
+    "number": "№ —",
+    "date": "",
+    "audience": "Sog'liqni saqlash tizimi xodimlari",
+    "summary": "Qarorning tez tibbiy yordam tizimiga oid asosiy qoidalari qisqacha yoziladi.",
+    "memo": [
+      "Asosiy maqsad",
+      "Mas'ul tashkilotlar",
+      "Muddatlar"
+    ],
+    "pdf": "",
+    "demo": true
+  },
+  {
+    "id": "namuna-vm",
+    "type": "vm",
+    "title": "Vazirlar Mahkamasi qarori — nomi shu yerga kiritiladi",
+    "number": "№ —",
+    "date": "",
+    "audience": "Tez tibbiy yordam muassasalari",
+    "summary": "Qarorning asosiy mazmuni va amaliy ahamiyati qisqacha yoziladi.",
+    "memo": [
+      "Asosiy nuqta",
+      "Amaliy ahamiyati"
+    ],
+    "pdf": "",
+    "demo": true
+  }
+]
