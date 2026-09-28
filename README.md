@@ -32,14 +32,19 @@ npx netlify-cli deploy --prod --dir=dist --site 7787334a-4315-48af-87fa-dcd1d879
 
 | Manzil | Bo'lim |
 | --- | --- |
-| `#/` | Bosh sahifa |
+| `#/` | Bosh sahifa: Tezkor qalqon tugmasi, 103 qo'llanmasi, Qalqonlar xaritasi |
+| `#/tezkor`, `#/tezkor/qon` | **Tezkor qalqon** — "Hozir shoshilinch yordam kerak": holatni tanlang → eng muhim birinchi harakatlar |
+| `#/103-gacha`, `#/103-gacha/qon` | **103 gacha** — har bir holat uchun "103 kelguncha nima qilish kerak" rejasi |
+| `#/qalqonlar` | **Qalqonlar xaritasi** — 11 ta favqulodda holat + Mutaxassis |
+| `#/maktab/yurak` | **Qalqon ichi**: 1 Holatni aniqlash · 2 Birinchi harakat · 3 Algoritm · 4 Nima qilish mumkin emas · 5 Tibbiyot xodimi uchun · 6 Oddiy fuqaro uchun + Qalqon testi |
+| `#/mutaxassis` | **Mutaxassis qalqoni** — professional rejim (ABCDE/SAB, CPR, ALS, shok, O'KS, triaj, immobilizatsiya …) |
+| `#/maktab` | Tez yordam maktabi — barcha 16 mavzu |
 | `#/aholi` | Aholi uchun: 103 qachon va qanday chaqiriladi, brigadaga yordam |
-| `#/maktab`, `#/maktab/yurak` | Tez yordam maktabi — 8 mavzu, har biri 6 bosqichda + aholi uchun yo'riqnoma |
-| `#/qalqonlar` | 7 ta Himoya qalqoni |
 | `#/brigada` | Brigada turlari va jihozlar (Nima? Qachon? Qanday? E'tibor) |
 | `#/dorilar`, `#/dorilar/adrenalin` | Dorilar kutubxonasi |
 | `#/hujjatlar` | Buyruqlar va hujjatlar |
 | `#/test`, `#/test/yurak`, `#/test/aralash` | Test markazi |
+| `#/sertifikat` | **Qalqon sertifikati** — barcha 11 qalqon testidan o'tgach (PNG yoki chop etish) |
 | `#/video` | Video darslar |
 
 Qidiruv: sarlavhadagi lupa yoki klaviaturada `/` (yoki `Ctrl+K`).
@@ -48,13 +53,16 @@ Qidiruv: sarlavhadagi lupa yoki klaviaturada `/` (yoki `Ctrl+K`).
 
 | Fayl | Nima uchun |
 | --- | --- |
-| `topics.js` | Klinik mavzular (belgilar → baholash → birinchi yordam → brigada → transport → hujjatlashtirish) va aholi yo'riqnomasi |
+| `topics.js`, `topics-more.js` | Klinik mavzular (belgilar → baholash → birinchi yordam → brigada → transport → hujjatlashtirish) va aholi yo'riqnomasi |
+| `topics-pro.js` | Faqat professional yo'nalishlar (ABCDE/SAB, O'KS, triaj, immobilizatsiya) — Mutaxassis qalqoni |
+| `algos.js` | Qalqon ichidagi 1–3-bloklar: Holatni aniqlash, Birinchi harakat, Algoritm zanjiri |
+| `quick.js` | **Tezkor qalqon** va **103 gacha** uchun holatlar (qadamlar, qilmang, kuzating, brigadaga ayting) |
 | `drugs.js` | Dorilar. **`dosing` (doza va qo'llash tartibi) ataylab bo'sh** — o'zingiz yozasiz (formatni fayl boshidagi izohdan ko'ring) |
 | `equipment.js` | Brigada turlari va jihozlar |
 | `documents.js` | Buyruqlar va hujjatlar. Hozirgi 3 ta yozuv — **namuna** (`demo: true`); haqiqiylarini qo'shib, namunalarni o'chiring. PDF fayllarni `assets/docs/` ga qo'ying va `pdf: "assets/docs/fayl.pdf"` yozing |
 | `videos.js` | Video darslar: `youtube: "VIDEO_ID"` yoki `file: "assets/videos/fayl.mp4"` qo'shsangiz, "Tez orada" o'rniga video ochiladi |
-| `questions.js` | Test savollari. Har savolda **birinchi variant — to'g'ri javob** (saytda aralashtiriladi) |
-| `shields.js`, `citizen.js` | Qalqonlar va aholi uchun matnlar |
+| `questions.js`, `questions-more.js` | Test savollari (154 ta). Har savolda **birinchi variant — to'g'ri javob** (saytda aralashtiriladi). Har qalqon uchun 10 ta savol = Qalqon testi |
+| `shields.js`, `citizen.js` | 11 ta qalqon (rang va belgi) va aholi uchun matnlar |
 | `../config.js` | Ijtimoiy tarmoq havolalari (`telegram`, `instagram`), o'tish bali, test uzunligi |
 
 Matn ichida `**qalin**` yozish mumkin.
@@ -70,7 +78,9 @@ node tools/build-icons.mjs
 - **Tibbiy ma'lumotlar** ta'limiy maqsadda umumiy xalqaro yo'riqnomalar (ERC/AHA) asosida yozilgan. Ularni amaldagi SSV buyruqlari va mahalliy klinik protokollar bilan **tekshirib chiqing**. Dori dozalari saytga kiritilmagan.
 - **103 tugmasi qo'ng'iroq qilmaydi** — u «103 qachon va qanday chaqiriladi?» qo'llanmasini ochadi (talabingizga ko'ra).
 - Bosh sahifadagi ko'rsatkichlar (mavzu, dori, jihoz, savol soni) bazadagi haqiqiy ma'lumotlardan hisoblanadi — o'zboshimchalik bilan raqam yozilmagan.
-- Test natijalari faqat foydalanuvchi qurilmasida (brauzer xotirasida) saqlanadi.
+- Test natijalari va sertifikat uchun kiritilgan ism faqat foydalanuvchi qurilmasida (brauzer xotirasida) saqlanadi.
+- **Sertifikat** — platformadagi o'quv testi natijasi; unda «rasmiy tibbiy malaka yoki attestatsiya hujjati emas» deb yozilgan.
+- **SAB** = Sirkulyatsiya – Airway – Breathing (CAB) deb qabul qilingan (Mutaxassis qalqoni → ABCDE va SAB).
 
 ## Tuzilma
 

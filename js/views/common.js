@@ -8,13 +8,20 @@
   const topicBySlug = (slug) => TTY.data.topics.find((t) => t.slug === slug);
   const drugBySlug = (slug) => TTY.data.drugs.find((d) => d.slug === slug);
   const equipBySlug = (slug) => TTY.data.equipment.find((e) => e.slug === slug);
+  const shieldForTopic = (slug) => TTY.data.shields.find((s) => s.topic === slug);
   const testCount = (key) => TTY.data.questions.filter((q) => q.topic === key).length;
-  Object.assign(C, { topicBySlug, drugBySlug, equipBySlug, testCount });
+  Object.assign(C, { topicBySlug, drugBySlug, equipBySlug, shieldForTopic, testCount });
 
   /** Qalqon shaklidagi rangli belgi (brendning markaziy elementi) */
   C.shieldBadge = (tone, icon, size = "") => html`<span class="shield tone-${tone} ${size}" aria-hidden="true">
     <svg viewBox="0 0 100 100"><path d="M50 6 C68 6 88 14 88 28 C88 56 68 84 50 94 C32 84 12 56 12 28 C12 14 32 6 50 6 Z"/></svg>${ic(icon)}
   </span>`;
+
+  /** Mavzuning belgisi: qalqoni bo'lsa — qalqon, bo'lmasa — oddiy ikonka */
+  C.topicEmblem = (t, size = "") => {
+    const s = shieldForTopic(t.slug);
+    return s ? C.shieldBadge(s.tone, s.icon, size) : html`<span class="icon-box tone-${t.tone} ${size ? "icon-box--lg" : ""}">${ic(t.icon, size ? "ms-32 fill" : "ms-28 fill")}</span>`;
+  };
 
   C.breadcrumb = (items) => html`<nav class="breadcrumb" aria-label="Sahifa yo'li">
     ${items.map((it, i) => {
@@ -37,7 +44,7 @@
 
   C.topicCard = (t) => html`<a class="card card--link card--accent tone-${t.tone}" href="#/maktab/${t.slug}">
     <div class="spread" style="align-items:flex-start">
-      <span class="icon-box">${ic(t.icon, "ms-28 fill")}</span>
+      ${C.topicEmblem(t)}
       <span class="cluster" style="justify-content:flex-end">${t.badges.slice(0, 1).map((b) => html`<span class="badge ${b.c ? "badge--" + b.c : ""}">${b.t}</span>`)}</span>
     </div>
     <div>
@@ -46,6 +53,26 @@
     </div>
     <span class="card__more"><span>Protokolni ochish</span>${ic("arrow_forward", "ms-18")}</span>
   </a>`;
+
+  /** "Qalqonlar xaritasi" plitkalari — favqulodda holatni tanlash */
+  C.shieldMap = (opts = {}) => {
+    const { progress = false } = opts;
+    return html`<div class="shield-map" role="list">
+      ${TTY.data.shields.map((s) => {
+        const t = topicBySlug(s.topic);
+        const done = progress && TTY.progress && TTY.progress.passed(t.quiz);
+        return html`<a class="map-tile tone-${s.tone}" role="listitem" href="#/maktab/${s.topic}">
+          ${C.shieldBadge(s.tone, s.icon, "shield--md")}
+          <span class="map-tile__name">${s.short}</span>
+          ${done ? html`<span class="map-tile__done" title="Test topshirilgan">${ic("check_circle", "ms-18 fill")}</span>` : ""}
+        </a>`;
+      })}
+      <a class="map-tile map-tile--pro" role="listitem" href="#/mutaxassis">
+        <span class="shield shield--md" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 6 C68 6 88 14 88 28 C88 56 68 84 50 94 C32 84 12 56 12 28 C12 14 32 6 50 6 Z"/></svg>${ic("stethoscope")}</span>
+        <span class="map-tile__name">Mutaxassis</span>
+      </a>
+    </div>`;
+  };
 
   C.videoCard = (v) => {
     const ready = !!(v.youtube || v.file);

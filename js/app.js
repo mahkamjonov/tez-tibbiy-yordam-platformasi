@@ -10,19 +10,22 @@
 
   /* ── Bo'limlar ──────────────────────────────────────── */
   const NAV = [
-    { key: "bosh",      path: "/",           label: "Bosh sahifa",  icon: "home", short: "Asosiy" },
-    { key: "aholi",     path: "/aholi",      label: "Aholi uchun",  icon: "diversity_3" },
-    { key: "maktab",    path: "/maktab",     label: "Maktab",       icon: "school", long: "Tez yordam maktabi" },
-    { key: "qalqonlar", path: "/qalqonlar",  label: "Qalqonlar",    icon: "shield" },
-    { key: "brigada",   path: "/brigada",    label: "Brigada",      icon: "groups" },
-    { key: "dorilar",   path: "/dorilar",    label: "Dorilar",      icon: "medication" },
-    { key: "hujjatlar", path: "/hujjatlar",  label: "Hujjatlar",    icon: "description" },
-    { key: "test",      path: "/test",       label: "Test",         icon: "quiz", long: "Test markazi" },
-    { key: "video",     path: "/video",      label: "Video",        icon: "smart_display", long: "Video darslar" }
+    { key: "bosh",       path: "/",           label: "Bosh sahifa",   icon: "home", short: "Asosiy" },
+    { key: "tezkor",     path: "/tezkor",     label: "Tezkor",        icon: "e911_emergency", long: "Tezkor qalqon — shoshilinch yordam" },
+    { key: "qalqonlar",  path: "/qalqonlar",  label: "Qalqonlar",     icon: "shield", long: "Qalqonlar xaritasi" },
+    { key: "gacha",      path: "/103-gacha",  label: "103 gacha",     icon: "menu_book", long: "103 kelguncha nima qilish" },
+    { key: "mutaxassis", path: "/mutaxassis", label: "Mutaxassis",    icon: "stethoscope", long: "Mutaxassis qalqoni" },
+    { key: "aholi",      path: "/aholi",      label: "Aholi uchun",   icon: "diversity_3" },
+    { key: "maktab",     path: "/maktab",     label: "Maktab",        icon: "school", long: "Tez yordam maktabi" },
+    { key: "brigada",    path: "/brigada",    label: "Brigada",       icon: "groups" },
+    { key: "dorilar",    path: "/dorilar",    label: "Dorilar",       icon: "medication" },
+    { key: "hujjatlar",  path: "/hujjatlar",  label: "Hujjatlar",     icon: "description" },
+    { key: "test",       path: "/test",       label: "Test",          icon: "quiz", long: "Test markazi va sertifikat" },
+    { key: "video",      path: "/video",      label: "Video",         icon: "smart_display", long: "Video darslar" }
   ];
   TTY.nav = NAV;
-  const DESKTOP_NAV = ["maktab", "qalqonlar", "brigada", "dorilar", "hujjatlar", "test", "video", "aholi"];
-  const BOTTOM_NAV = ["bosh", "maktab", "dorilar", "test"];
+  const DESKTOP_NAV = ["qalqonlar", "gacha", "mutaxassis", "maktab", "brigada", "dorilar", "hujjatlar", "test", "video"];
+  const BOTTOM_NAV = ["bosh", "qalqonlar", "tezkor", "test"];
   const byKey = (k) => NAV.find((n) => n.key === k);
 
   /* ── Qobiq ──────────────────────────────────────────── */
@@ -30,7 +33,7 @@
     $("#site-header").innerHTML = String(html`
       <div class="container site-header__inner">
         <a class="brand" href="#/" aria-label="Qalqonlar — bosh sahifa">
-          <img src="assets/logo.svg" alt="" width="40" height="40" />
+          <img src="assets/logo-160.png" alt="" width="40" height="40" />
           <span class="brand__text">
             <span class="brand__name">Qalqonlar</span>
             <span class="brand__tag">Tez tibbiy yordam</span>
@@ -40,6 +43,7 @@
           ${DESKTOP_NAV.map((k) => html`<a href="#${byKey(k).path}" data-nav="${k}">${byKey(k).label}</a>`)}
         </nav>
         <div class="header-actions">
+          <a class="btn-sos" href="#/tezkor" data-nav="tezkor" aria-label="Tezkor qalqon: hozir shoshilinch yordam kerak">${ic("e911_emergency", "ms-20")}<span>Tezkor</span></a>
           <button class="icon-btn" type="button" data-action="open-search" aria-label="Qidirish" title="Qidirish  ( / )">${ic("search")}</button>
           <button class="btn-103" type="button" data-action="open-103" aria-label="103 qachon va qanday chaqiriladi?">${ic("call", "ms-20 fill")}<span>103</span></button>
         </div>
@@ -47,7 +51,7 @@
 
     $("#bottom-nav").innerHTML = String(html`
       <div class="bottom-nav__inner">
-        ${BOTTOM_NAV.map((k) => { const n = byKey(k); return html`<a href="#${n.path}" data-nav="${k}">${ic(n.icon)}<span>${n.short || n.label}</span></a>`; })}
+        ${BOTTOM_NAV.map((k) => { const n = byKey(k); return html`<a href="#${n.path}" data-nav="${k}" class="${k === "tezkor" ? "is-sos" : ""}">${ic(n.icon)}<span>${n.short || n.label}</span></a>`; })}
         <button type="button" data-action="open-menu" aria-label="Boshqa bo'limlar">${ic("menu")}<span>Yana</span></button>
       </div>`);
 
@@ -59,6 +63,7 @@
         </div>
         <nav class="drawer__nav" aria-label="Barcha bo'limlar">
           ${NAV.map((n) => html`<a href="#${n.path}" data-nav="${n.key}" data-close-on-click>${ic(n.icon)}<span>${n.long || n.label}</span></a>`)}
+          <a href="#/sertifikat" data-nav="sertifikat" data-close-on-click>${ic("workspace_premium")}<span>Qalqon sertifikati</span></a>
         </nav>
         <div class="drawer__foot">
           <button class="btn btn--emergency btn--lg btn--block" type="button" data-action="open-103" data-close-on-click>${ic("call", "fill")}103 qachon chaqiriladi?</button>
@@ -74,7 +79,7 @@
         </div>
         <div class="footer-grid">
           <div>
-            <div class="footer-brand"><img src="assets/logo.svg" alt="" width="48" height="48" /><strong>${cfg.siteName}</strong></div>
+            <div class="footer-brand"><img src="assets/logo-160.png" alt="" width="56" height="56" /><strong>${cfg.siteName}</strong></div>
             <p style="margin-top:.75rem;max-width:34ch;font-size:var(--text-md)">${cfg.tagline} Tibbiyot xodimlari va aholi uchun ishonchli axborot platformasi.</p>
             <div class="social">
               <a href="${s.telegram}" target="_blank" rel="noopener">${ic("send", "ms-20")}Telegram</a>
@@ -84,16 +89,17 @@
           <div>
             <div class="footer-title">Tibbiyot xodimlari</div>
             <div class="footer-links">
-              <a href="#/maktab">Tez yordam maktabi</a><a href="#/brigada">Brigada va jihozlar</a>
-              <a href="#/dorilar">Dorilar kutubxonasi</a><a href="#/hujjatlar">Buyruqlar va hujjatlar</a>
-              <a href="#/test">Test markazi</a>
+              <a href="#/mutaxassis">Mutaxassis qalqoni</a><a href="#/maktab">Tez yordam maktabi</a>
+              <a href="#/brigada">Brigada va jihozlar</a><a href="#/dorilar">Dorilar kutubxonasi</a>
+              <a href="#/hujjatlar">Buyruqlar va hujjatlar</a><a href="#/test">Test markazi</a>
             </div>
           </div>
           <div>
             <div class="footer-title">Aholi uchun</div>
             <div class="footer-links">
-              <a href="#/aholi">103 qachon va qanday chaqiriladi</a><a href="#/aholi">Brigadaga qanday yordam berish</a>
-              <a href="#/qalqonlar">7 ta Himoya qalqoni</a><a href="#/video">Video darslar</a>
+              <a href="#/tezkor">Tezkor qalqon</a><a href="#/103-gacha">103 kelguncha nima qilish</a>
+              <a href="#/aholi">103 chaqirish va brigadaga yordam</a><a href="#/qalqonlar">Qalqonlar xaritasi</a>
+              <a href="#/sertifikat">Qalqon sertifikati</a><a href="#/video">Video darslar</a>
             </div>
           </div>
         </div>
@@ -161,13 +167,18 @@
   function buildIndex() {
     const D = TTY.data;
     const idx = [];
-    D.topics.forEach((t) => idx.push({ type: "Mavzu", icon: t.icon, title: t.title, sub: t.subtitle, href: "#/maktab/" + t.slug, hay: norm([t.title, t.subtitle, t.lead].join(" ")) }));
+    D.topics.forEach((t) => idx.push({ type: t.proOnly ? "Mutaxassis" : "Mavzu", icon: t.icon, title: t.title, sub: t.subtitle, href: "#/maktab/" + t.slug, hay: norm([t.title, t.subtitle, t.lead].join(" ")) }));
     D.drugs.forEach((d) => idx.push({ type: "Dori", icon: "medication", title: d.name, sub: d.latin + " · " + d.group, href: "#/dorilar/" + d.slug, hay: norm([d.name, d.latin, d.group, d.effect, d.indications.join(" ")].join(" ")) }));
     D.equipment.forEach((e) => idx.push({ type: "Jihoz", icon: e.icon, title: e.title, sub: e.cat, href: "#/brigada", equip: e.slug, hay: norm([e.title, e.cat, e.what].join(" ")) }));
-    D.shields.forEach((s) => idx.push({ type: "Qalqon", icon: "shield", title: s.title, sub: s.desc, href: "#/maktab/" + s.topic, hay: norm([s.title, s.desc, s.tag].join(" ")) }));
+    D.shields.forEach((s) => idx.push({ type: "Qalqon", icon: s.icon, title: s.title, sub: s.desc, href: "#/maktab/" + s.topic, hay: norm([s.title, s.desc, s.tag, s.short].join(" ")) }));
+    D.quick.forEach((q) => idx.push({ type: "Tezkor", icon: q.icon, title: q.title, sub: q.hint, href: "#/tezkor/" + q.id, hay: norm([q.title, q.hint, "tezkor shoshilinch 103 gacha"].join(" ")) }));
     D.documents.forEach((d) => idx.push({ type: "Hujjat", icon: "description", title: d.title, sub: (d.number || "") + " " + (d.audience || ""), href: "#/hujjatlar", hay: norm([d.title, d.summary, d.audience].join(" ")) }));
     D.videos.forEach((v) => idx.push({ type: "Video", icon: "smart_display", title: v.title, sub: v.part, href: "#/video", hay: norm([v.title, v.desc, v.part].join(" ")) }));
     idx.push({ type: "Aholi", icon: "call", title: "103 qachon va qanday chaqiriladi?", sub: "Dispetcherga nimalarni aytish kerak", href: "#/aholi", hay: norm("103 chaqiruv dispetcher tez yordam aholi manzil") });
+    idx.push({ type: "Bo'lim", icon: "e911_emergency", title: "Tezkor qalqon", sub: "Hozir shoshilinch yordam kerak", href: "#/tezkor", hay: norm("tezkor qalqon shoshilinch yordam hozir favqulodda") });
+    idx.push({ type: "Bo'lim", icon: "menu_book", title: "103 gacha", sub: "103 kelguncha nima qilish kerak", href: "#/103-gacha", hay: norm("103 gacha kelguncha nima qilish") });
+    idx.push({ type: "Bo'lim", icon: "stethoscope", title: "Mutaxassis qalqoni", sub: "Professional rejim", href: "#/mutaxassis", hay: norm("mutaxassis professional abcde sab als triage") });
+    idx.push({ type: "Bo'lim", icon: "workspace_premium", title: "Qalqon sertifikati", sub: "Barcha qalqon testlaridan o'tgach", href: "#/sertifikat", hay: norm("sertifikat qalqon test natija") });
     idx.push({ type: "Test", icon: "quiz", title: "Test markazi", sub: "Attestatsiya va toifa imtihoniga tayyorgarlik", href: "#/test", hay: norm("test savol attestatsiya toifa imtihon") });
     return idx;
   }
@@ -187,6 +198,7 @@
     const n = norm(q);
     if (!n) {
       const quick = [
+        { title: "Tezkor qalqon — shoshilinch yordam", href: "#/tezkor", icon: "e911_emergency" },
         { title: "Yurak to'xtashi (CPR)", href: "#/maktab/yurak", icon: "cardiology" },
         { title: "Adrenalin", href: "#/dorilar/adrenalin", icon: "medication" },
         { title: "Insult — FAST", href: "#/maktab/insult", icon: "neurology" },
@@ -228,6 +240,10 @@
   const ROUTES = [
     [/^\/$/, "home"],
     [/^\/aholi$/, "citizen"],
+    [/^\/tezkor(?:\/([\w-]+))?$/, "quick"],
+    [/^\/103-gacha(?:\/([\w-]+))?$/, "gacha"],
+    [/^\/mutaxassis$/, "pro"],
+    [/^\/sertifikat$/, "certificate"],
     [/^\/maktab$/, "school"],
     [/^\/maktab\/([\w-]+)$/, "topic"],
     [/^\/qalqonlar$/, "shields"],

@@ -31,7 +31,7 @@ body {
   padding-bottom: calc(var(--bottomnav-h) + env(safe-area-inset-bottom, 0px));
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   body {
     padding-bottom: 0;
   }
@@ -223,7 +223,7 @@ main {
   .brand img { height: 2.25rem; }
   .btn-103 { padding: 0 var(--space-3); }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .desktop-nav { display: flex; }
 }
 
@@ -288,7 +288,7 @@ main {
   background: var(--color-emergency);
 }
 .bottom-nav a[aria-current="page"] .ms { font-variation-settings: "FILL" 1; }
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .bottom-nav { display: none; }
 }
 
@@ -424,7 +424,7 @@ dialog.drawer[open] { animation: drawer-in var(--dur-slow) var(--ease-out); }
   max-width: calc(100vw - 2rem);
 }
 .toast.show { opacity: 1; transform: translateX(-50%); }
-@media (min-width: 1024px) { .toast { bottom: 1.5rem; } }
+@media (min-width: 1280px) { .toast { bottom: 1.5rem; } }
 
 /* Route transition */
 main.enter > * { animation: page-in var(--dur-slow) var(--ease-out) both; }

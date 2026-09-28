@@ -400,7 +400,7 @@ code { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.9
 .test-nav #next { margin-left: auto; }
 .test-nav .btn { white-space: nowrap; }
 .test-nav .btn--lg { padding: 0 var(--space-4); }
-@media (min-width: 1024px) { .test-nav { bottom: 0.75rem; } }
+@media (min-width: 1280px) { .test-nav { bottom: 0.75rem; } }
 
 .test-topics .card--link { gap: var(--space-2); }
 @media (min-width: 1100px) { .test-topics { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
@@ -412,7 +412,7 @@ code { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.9
 .res-head.is-pass .res-head__tag { color: var(--color-success); }
 .res-head.is-fail { background: var(--color-action-tint); border-color: transparent; }
 .res-head.is-fail .res-head__tag { color: var(--color-action-ink); }
-.res-head h1 { font-size: var(--text-3xl); font-weight: 800; }
+.res-head h1, .res-head h2 { font-size: var(--text-3xl); font-weight: 800; }
 .res-score { display: grid; justify-items: center; gap: var(--space-4); text-align: center; margin-bottom: var(--space-4); }
 .ring { position: relative; width: 11rem; height: 11rem; }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }

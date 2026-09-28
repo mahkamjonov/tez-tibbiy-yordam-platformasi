@@ -3,24 +3,12 @@
  * Format:  q(mavzu, "Savol", ["TO'G'RI javob", "xato 1", "xato 2", "xato 3"], "Izoh")
  * DIQQAT: variantlar ro'yxatida BIRINCHI javob — to'g'ri javob. Saytda variantlar tasodifiy aralashtiriladi.
  *
- * Mavzu kalitlari: yurak · nafas · insult · shok · akusherlik · zaharlanish · bola · travma · brigada · dorilar
+ * Mavzu kalitlari: topics*.js dagi `quiz` qiymati (yurak, nafas, insult, qon-ketish, allergiya, bola, akusherlik, travma, kuyish, zaharlanish, choqish, shok, abcde, oks, triage, immobilizatsiya) + brigada, dorilar.
+ * Qo'shimcha savollar questions-more.js da.
  * Savollar ta'limiy; attestatsiya bazasidagi savollar bilan almashtirilishi yoki to'ldirilishi mumkin.
  */
 window.TTY = window.TTY || {};
 TTY.data = TTY.data || {};
-
-TTY.data.testTopics = [
-  { key: "yurak",       label: "Yurak",        icon: "cardiology",        tone: "heart",  link: "#/maktab/yurak" },
-  { key: "nafas",       label: "Nafas",        icon: "pulmonology",       tone: "breath", link: "#/maktab/nafas" },
-  { key: "insult",      label: "Insult",       icon: "neurology",         tone: "brain",  link: "#/maktab/insult" },
-  { key: "shok",        label: "Shok",         icon: "health_and_safety", tone: "life",   link: "#/maktab/shok" },
-  { key: "akusherlik",  label: "Akusherlik",   icon: "pregnant_woman",    tone: "mother", link: "#/maktab/akusherlik" },
-  { key: "zaharlanish", label: "Zaharlanish",  icon: "warning_amber",     tone: "tox",    link: "#/maktab/zaharlanish" },
-  { key: "bola",        label: "Bolalar",      icon: "child_care",        tone: "child",  link: "#/maktab/bola" },
-  { key: "travma",      label: "Travma",       icon: "healing",           tone: "trauma", link: "#/maktab/travma" },
-  { key: "brigada",     label: "Jihozlar",     icon: "medical_services",  tone: "life",   link: "#/brigada" },
-  { key: "dorilar",     label: "Dorilar",      icon: "medication",        tone: "tox",    link: "#/dorilar" }
-];
 
 (function () {
   const list = (TTY.data.questions = []);

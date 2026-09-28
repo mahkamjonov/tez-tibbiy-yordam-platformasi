@@ -137,6 +137,10 @@
 .tone-mother { --accent: var(--shield-mother); --tint: var(--shield-mother-tint); --ink: var(--shield-mother); }
 .tone-trauma { --accent: var(--shield-trauma); --tint: var(--shield-trauma-tint); --ink: var(--shield-trauma); }
 .tone-tox    { --accent: var(--shield-tox);    --tint: var(--shield-tox-tint);    --ink: var(--shield-tox); }
+.tone-bleed  { --accent: var(--shield-bleed);  --tint: var(--shield-bleed-tint);  --ink: var(--shield-bleed); }
+.tone-allergy { --accent: var(--shield-allergy); --tint: var(--shield-allergy-tint); --ink: var(--shield-allergy); }
+.tone-burn   { --accent: var(--shield-burn);   --tint: var(--shield-burn-tint);   --ink: var(--shield-burn); }
+.tone-drowning { --accent: var(--shield-drowning); --tint: var(--shield-drowning-tint); --ink: var(--shield-drowning); }
 
 /* ── Callouts ────────────────────────────────────────── */
 .callout {

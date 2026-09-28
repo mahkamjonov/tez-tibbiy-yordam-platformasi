@@ -13,7 +13,10 @@ TTY.config = {
 
   // Ijtimoiy tarmoqlar — o'z havolalaringizni qo'ying
   social: {
-    telegram: "https://t.me/",
-    instagram: "https://www.instagram.com/"
-  }
+    telegram: "https://t.me/tezyordam_oltiariq_ch",
+    instagram: "https://www.instagram.com/" // TODO: haqiqiy Instagram havolasi qo'yilishi kerak
+  },
+
+  // Attestatsiya / toifa savollariga tayyorgarlik uchun Telegram guruhi (Test markazida ko'rsatiladi)
+  examGroup: "https://t.me/tezyordam_oltiariq_ch"
 };

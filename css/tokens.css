@@ -67,7 +67,11 @@
   --shield-child: #f5a623;
   --shield-mother: #be185d;
   --shield-trauma: #047857;
-  --shield-tox: #b45309;
+  --shield-tox: #44403c;
+  --shield-bleed: #881337;
+  --shield-allergy: #a21caf;
+  --shield-burn: #c2410c;
+  --shield-drowning: #0f766e;
   --shield-heart-tint: #fee2e2;
   --shield-breath-tint: #e0f2fe;
   --shield-brain-tint: #ede9fe;
@@ -75,7 +79,11 @@
   --shield-child-tint: #fef3c7;
   --shield-mother-tint: #fce7f3;
   --shield-trauma-tint: #d1fae5;
-  --shield-tox-tint: #ffedd5;
+  --shield-tox-tint: #f5f5f4;
+  --shield-bleed-tint: #ffe4e6;
+  --shield-allergy-tint: #fae8ff;
+  --shield-burn-tint: #ffedd5;
+  --shield-drowning-tint: #ccfbf1;
 
   /* ── Type ───────────────────────────────────────────── */
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;

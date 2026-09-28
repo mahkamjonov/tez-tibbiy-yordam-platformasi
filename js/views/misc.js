@@ -145,6 +145,11 @@
       <div class="container page">
         ${C.breadcrumb([{ label: "Bosh sahifa", href: "#/" }, { label: "Aholi uchun" }])}
         ${C.pageHead("Aholi uchun qo'llanma", "103 ni qachon va qanday chaqirish, tez yordam kelguncha nima qilish va brigadaga qanday yordam berish mumkin.")}
+        <a class="sos-banner" href="#/tezkor">
+          <span class="sos-banner__icon">${ic("e911_emergency", "ms-32")}</span>
+          <span class="grow"><strong>Hozir shoshilinch yordam kerakmi?</strong><span>Tezkor qalqon: holatni tanlang va birinchi harakatlarni ko'ring</span></span>
+          ${ic("arrow_forward")}
+        </a>
 
         <section class="section" aria-labelledby="c1">
           ${C.sectionHead("103 qachon chaqiriladi?", "Quyidagi holatlarda darhol 103 ga qo'ng'iroq qiling")}
@@ -169,12 +174,12 @@
         </section>
 
         <section class="section">
-          ${C.sectionHead("Tez yordam kelguncha nima qilish kerak?", "Holatni tanlang — qisqa va aniq yo'riqnoma ochiladi")}
-          <div class="grid grid--4">
-            ${D.topics.map((t) => html`<a class="card card--link card--accent tone-${t.tone}" href="#/maktab/${t.slug}" data-action="pick-audience" data-audience="public">
-              <span class="icon-box">${ic(t.icon, "ms-28 fill")}</span>
-              <span class="card__title">${t.title}</span>
-              <span class="card__more"><span>Yo'riqnoma</span>${ic("arrow_forward", "ms-18")}</span>
+          ${C.sectionHead("Tez yordam kelguncha nima qilish kerak?", "Holatni tanlang — eng muhim birinchi harakatlar ochiladi", { href: "#/103-gacha", label: "103 gacha qo'llanma" })}
+          <div class="quick-grid" role="list">
+            ${D.quick.map((q) => html`<a class="quick-tile tone-${q.tone}" role="listitem" href="#/tezkor/${q.id}">
+              ${C.shieldBadge(q.tone, q.icon)}
+              <span class="quick-tile__txt"><strong>${q.title}</strong><span>${q.hint}</span></span>
+              ${ic("chevron_right", "quick-tile__go")}
             </a>`)}
           </div>
         </section>
