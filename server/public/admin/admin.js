@@ -26,7 +26,8 @@
     const headers = Object.assign({}, opts.headers, state.token ? { Authorization: "Bearer " + state.token } : {});
     if (opts.body && typeof opts.body !== "string") { headers["Content-Type"] = "application/json"; opts.body = JSON.stringify(opts.body); }
     const res = await fetch(path, Object.assign({}, opts, { headers }));
-    if (res.status === 401) { doLogout(); throw new Error("Sessiya tugagan — qayta kiring"); }
+    // 401 = sessiya tugagan; faqat kirish so'rovining o'zida (noto'g'ri parol) chiqarib yubormaymiz
+    if (res.status === 401 && path !== "/api/auth/login") { doLogout(); throw new Error("Sessiya tugagan — qayta kiring"); }
     let body = null;
     try { body = await res.json(); } catch (e) { /* bo'sh javob */ }
     if (!res.ok) throw new Error((body && body.error) || `Xatolik (${res.status})`);
@@ -88,24 +89,21 @@
       addLabel: "Yangi video",
       badge: () => "▶",
       rowTitle: (it) => it.title,
-      rowSub: (it) => [it.part, it.youtube ? "YouTube" : it.file ? "Fayl" : "Tez orada"].filter(Boolean).join(" · "),
+      rowSub: (it) => [it.part, it.youtube ? "YouTube" : it.link ? hostOf(it.link) : "Havolasiz"].filter(Boolean).join(" · "),
       rowTag: (it) => labelFrom(state.meta.videoCats, "key", it.cat),
       search: (it, q) => [it.title, it.desc, it.part].join(" ").toLowerCase().includes(q),
       fields: [
         { key: "title", label: "Sarlavha", type: "text", required: true },
+        { key: "url", label: "Video havolasi", type: "text", required: true, hint: "YouTube havolasini qo'ying (youtube.com/watch?v=…, youtu.be/…, shorts). Instagram, Telegram va boshqa ijtimoiy tarmoq havolalari ham bo'ladi — ular saytda yangi oynada ochiladi." },
         { key: "cat", label: "Toifa", type: "select", half: true, options: () => state.meta.videoCats.map((c) => ({ value: c.key, label: c.label })) },
-        { key: "part", label: "Qism / yorliq", type: "text", half: true, hint: "Masalan: 1-qism" },
+        { key: "part", label: "Qism / yorliq", type: "text", half: true, hint: "Masalan: 1-qism (ixtiyoriy)" },
         { key: "duration", label: "Davomiyligi", type: "text", half: true, hint: "Masalan: 05:20 (ixtiyoriy)" },
-        { key: "tone", label: "Rang (tone)", type: "select", half: true, options: () => TONE_OPTIONS },
-        { key: "icon", label: "Ikonka nomi", type: "text", half: true, hint: "Material Symbols, masalan: cardiology" },
-        { key: "desc", label: "Tavsif", type: "textarea" },
-        { key: "youtube", label: "YouTube video ID", type: "text", hint: "watch?v=XXXX dagi XXXX qismi" },
-        { key: "file", label: "Video fayl yo'li", type: "text", hint: "YouTube o'rniga, masalan: assets/videos/fayl.mp4" },
-        { key: "poster", label: "Muqova rasmi yo'li", type: "text", hint: "Ixtiyoriy" }
+        { key: "poster", label: "Muqova rasmi havolasi", type: "text", half: true, hint: "Ixtiyoriy. YouTube uchun avtomatik olinadi." },
+        { key: "desc", label: "Tavsif", type: "textarea" }
       ]
     }
   };
-  const TONE_OPTIONS = ["heart", "breath", "brain", "life", "child", "mother", "trauma", "tox", "bleed", "allergy", "burn", "drowning"].map((t) => ({ value: t, label: t }));
+  const hostOf = (url) => { try { return new URL(url).hostname.replace(/^www\./, ""); } catch (e) { return "havola"; } };
 
   /* ── Kirish ───────────────────────────────────────────── */
   const loginScreen = $("#login-screen"), appEl = $("#app");
@@ -166,6 +164,12 @@
       toast("Toifalar yuklanmadi: " + e.message, true);
     }
     await Promise.all(Object.keys(COLLECTIONS).map(loadCollection));
+    try {
+      state.settings = await api("/api/settings");
+    } catch (e) {
+      state.settings = {};
+      toast("Sozlamalar yuklanmadi: " + e.message, true);
+    }
     renderSettingsPanel();
     activateTab(activeTabKey() || "drugs");
   }
@@ -391,11 +395,26 @@
     err.textContent = msg;
   }
 
-  /* ── Sozlamalar (parol o'zgartirish) ──────────────────── */
+  /* ── Sozlamalar (aloqa/ijtimoiy tarmoqlar + parol) ────── */
   function renderSettingsPanel() {
     const panel = $("#panel-settings");
+    const s = state.settings || {};
     panel.innerHTML = `
       <div class="panel-head"><div><h2>Sozlamalar</h2><p>Kirish: <b>${esc(state.user)}</b></p></div></div>
+
+      <h3 class="settings-h">Aloqa va ijtimoiy tarmoqlar</h3>
+      <p class="muted settings-p">Saytning pastki qismida va tegishli sahifalarda ko'rsatiladi. Bo'sh qoldirilgan maydon saytda chiqmaydi.</p>
+      <form id="settings-form" class="settings-form">
+        <label class="field"><span>Telegram (kanal yoki guruh)</span><input type="text" name="telegram" value="${esc(s.telegram)}" placeholder="https://t.me/nom" /></label>
+        <label class="field"><span>Instagram</span><input type="text" name="instagram" value="${esc(s.instagram)}" placeholder="https://instagram.com/nom yoki @nom" /></label>
+        <label class="field"><span>YouTube kanal</span><input type="text" name="youtube" value="${esc(s.youtube)}" placeholder="https://youtube.com/@nom" /></label>
+        <label class="field"><span>Telefon raqam</span><input type="text" name="phone" value="${esc(s.phone)}" placeholder="+998 90 123 45 67" inputmode="tel" /></label>
+        <label class="field"><span>Toifa savollariga tayyorgarlik — Telegram guruh</span><input type="text" name="examGroup" value="${esc(s.examGroup)}" placeholder="https://t.me/guruh_nomi" /><span class="hint">Test markazi sahifasida taklif sifatida chiqadi.</span></label>
+        <div class="form-error" id="settings-error" hidden></div>
+        <button class="btn btn-primary" type="submit">Saqlash</button>
+      </form>
+
+      <h3 class="settings-h" style="margin-top:2rem">Parolni o'zgartirish</h3>
       <form id="pw-form" style="max-width:24rem;display:grid;gap:0.9rem">
         <label class="field"><span>Joriy parol</span><input type="password" name="cur" required autocomplete="current-password" /></label>
         <label class="field"><span>Yangi parol</span><input type="password" name="new1" required minlength="6" autocomplete="new-password" /></label>
@@ -403,6 +422,26 @@
         <div class="form-error" id="pw-error" hidden></div>
         <button class="btn btn-primary" type="submit">Parolni yangilash</button>
       </form>`;
+    $("#settings-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const f = e.target;
+      const errEl = $("#settings-error");
+      errEl.hidden = true;
+      const body = {};
+      ["telegram", "instagram", "youtube", "phone", "examGroup"].forEach((k) => (body[k] = f[k].value.trim()));
+      const btn = $("button[type=submit]", f);
+      btn.disabled = true;
+      try {
+        state.settings = await api("/api/settings", { method: "PUT", body });
+        ["telegram", "instagram", "youtube", "phone", "examGroup"].forEach((k) => (f[k].value = state.settings[k] || ""));
+        toast("Saqlandi — saytda darhol ko'rinadi");
+      } catch (e2) {
+        errEl.textContent = e2.message;
+        errEl.hidden = false;
+      } finally {
+        btn.disabled = false;
+      }
+    });
     $("#pw-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const f = e.target;

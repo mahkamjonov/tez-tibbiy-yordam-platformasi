@@ -11,6 +11,18 @@
 
   TTY.views.drugs = function () {
     const D = TTY.data;
+    if (!D.drugs.length) {
+      const failed = TTY.remote.failed("drugs");
+      return {
+        title: "Dorilar kutubxonasi",
+        nav: "dorilar",
+        html: html`<div class="container page">
+          ${C.breadcrumb([{ label: "Bosh sahifa", href: "#/" }, { label: "Dorilar" }])}
+          ${C.pageHead("Dorilar kutubxonasi", "Tez yordamda ko'p qo'llaniladigan preparatlar: ta'siri, ko'rsatmalari, qarshi ko'rsatmalari va muhim eslatmalar.")}
+          ${failed ? C.empty("cloud_off", "Dorilar yuklanmadi", "Internet aloqasini tekshirib, sahifani yangilang.") : C.empty("medication", "Dorilar hozircha qo'shilmagan", "Preparatlar ma'lumotnomasi tez orada shu yerda paydo bo'ladi.")}
+        </div>`
+      };
+    }
     const page = html`
       <div class="container page">
         ${C.breadcrumb([{ label: "Bosh sahifa", href: "#/" }, { label: "Dorilar" }])}

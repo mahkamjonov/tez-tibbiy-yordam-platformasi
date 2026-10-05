@@ -157,6 +157,35 @@ TTY.data.equipment = [
     topics: ["yurak", "nafas", "bola"]
   },
   {
+    slug: "ivl",
+    title: "IVL apparati (ventilyator)",
+    icon: "pulmonology",
+    cat: "Nafas",
+    tone: "breath",
+    what: "Sun'iy o'pka ventilyatsiyasi (IVL) apparati — bemor o'zi yetarli nafas ola olmaganda nafas hajmi va chastotasini mexanik ravishda ta'minlaydigan qurilma. Odatda ilg'or nafas yo'li (intubatsiya yoki supraglottik vosita) orqali ulanadi; kislorod ulushi (FiO₂), nafas hajmi, chastota va bosimlar sozlanadi.",
+    when: [
+      "Og'ir nafas yetishmovchiligi — BVM bilan ventilyatsiya yetarli bo'lmaganda yoki uzoq transportda",
+      "Yurak to'xtashidan so'ng qon aylanishi tiklangach (ROSC) — protokol bo'yicha, ilg'or nafas yo'li bo'lsa",
+      "Ongi og'ir buzilgan, nafas yo'li himoyasi kerak bo'lgan bemorlar (zaharlanish, og'ir travma, uzoq davom etgan talvasa va h.k.)",
+      "Cho'kish va o'pka shishida nafas qo'llab-quvvatlash zarur bo'lganda"
+    ],
+    how: [
+      "Apparat, kontur, filtr, kislorod manbai va aspiratorni oldindan tekshiring; zaxira BVM doim qo'l ostida bo'lsin.",
+      "Ilg'or nafas yo'li holatini tasdiqlang: kapnografiya, auskultatsiya, ko'krak ko'tarilishi, trubka chuqurligi.",
+      "Bemor vazni va bo'yiga mos boshlang'ich parametrlarni (nafas hajmi, chastota, FiO₂, PEEP) amaldagi protokol va qurilma yo'riqnomasiga ko'ra o'rnating.",
+      "Konturni bemorga ulang; ko'krak harakatini, bosim ko'rsatkichlarini, SpO₂ va EtCO₂ ni baholab, kerak bo'lsa sozlang.",
+      "Signallarni (alarm) yoqing va transport davomida bemor hamda apparatni doimiy kuzating."
+    ],
+    care: [
+      "Bemor yomonlashsa yoki apparat ishdan chiqsa — darhol BVM va kislorodga o'ting, so'ng sababni qidiring (DOPE: trubka siljishi, to'siq, pnevmotoraks, uskuna nosozligi).",
+      "Juda yuqori bosim va katta hajm o'pka jarohati (barotravma) hamda qon bosimi pasayishiga olib keladi.",
+      "Kislorod zaxirasi va batareya zaryadini ketishdan oldin tekshiring.",
+      "Trubka mahkamligi, sedatsiya va og'riqsizlantirish transport paytida nazoratda bo'lsin.",
+      "Parametrlar va ularning o'zgarishini hujjatlashtiring."
+    ],
+    topics: ["yurak", "nafas", "zaharlanish", "choqish"]
+  },
+  {
     slug: "immobilizatsiya",
     title: "Immobilizatsiya vositalari",
     icon: "accessibility_new",

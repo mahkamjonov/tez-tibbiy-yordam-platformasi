@@ -12,21 +12,27 @@ Yoki terminalda:
 node tools/serve.mjs
 ```
 
-Saytni istalgan statik hostingga (Netlify, GitHub Pages, Cloudflare Pages, oddiy hosting) papkani shundayligicha yuklash bilan joylash mumkin — server sozlamalari kerak emas (sahifalar `#/…` manzillari bilan ishlaydi).
+## Arxitektura (qisqacha)
 
-## Netlify'ga joylash
+- **Kodda qoladi** (tez ochiladi): mavzular, protokollar, algoritmlar, testlar, qalqonlar, jihozlar — `js/data/*.js`.
+- **Serverdan yuklanadi** (admin paneldan tahrirlanadi): **Dorilar, Hujjatlar, Video darslar** va **sayt sozlamalari** (Telegram/Instagram/YouTube havolalari, telefon raqam, toifa guruhi). Sayt ochilganda `/api/...` dan olinadi; server ishlamasa — oxirgi nusxa ishlatiladi.
+- **Admin panel:** `/admin` (login + parol; parolni panelning "Sozlamalar" bo'limida o'zgartirish mumkin). Backend: `server/` (Node.js/Express, JSON fayllarda saqlaydi). Batafsil: `server/README.md`.
 
-Jonli sayt: https://tez-tibbiy-yordam-platformasi.netlify.app
+## Joylash (Contabo VPS)
 
-`netlify.toml` tayyor: build komandasi `node tools/prepare-dist.mjs` faqat kerakli fayllarni (`index.html`, `css/`, `js/`, `assets/`) `dist/` ga yig'adi — `design/` va `tools/` saytga chiqmaydi.
-
-Yangilash (kontentni o'zgartirgandan keyin):
+Sayt ham, admin ham bitta serverda: nginx statik saytni beradi, `/api` va `/admin` ni Node xizmatiga (pm2: `tezyordam-admin`, port 3001) uzatadi. nginx sozlamasi: `server/deploy/nginx-tez-tibbiy-yordam.uz.conf`.
 
 ```bash
-npx netlify-cli deploy --prod --dir=dist --site 7787334a-4315-48af-87fa-dcd1d8794375
+bash tools/deploy.sh          # sayt + backend
+bash tools/deploy.sh site     # faqat sayt
+bash tools/deploy.sh server   # faqat backend/admin
 ```
 
-(avval `node tools/prepare-dist.mjs` ni ishga tushiring). Netlify'ni GitHub repozitoriyga ulasangiz (Netlify → Add new project → Import from Git), har `git push` dan keyin sayt o'zi yangilanadi.
+(SSH kalit: `~/.ssh/tezyordam_claude`, server: `root@169.58.44.8` — `DEPLOY_KEY` / `DEPLOY_HOST` bilan o'zgartiriladi.)
+
+### Netlify (vaqtinchalik, domen ishga tushguncha)
+
+Jonli sayt: https://tez-tibbiy-yordam-platformasi.netlify.app — `netlify.toml` bilan; build komandasi `node tools/prepare-dist.mjs`. Eslatma: bu nusxa **eski** holatda qoldi (dorilar/videolar kod ichida). Yangi sayt `/api` ga tayanadi, shuning uchun Netlify'ga YANGI kodni joylamang — domen ishga tushgach Netlify nusxasi domenga yo'naltiriladi yoki o'chiriladi.
 
 ## Bo'limlar
 
@@ -57,13 +63,11 @@ Qidiruv: sarlavhadagi lupa yoki klaviaturada `/` (yoki `Ctrl+K`).
 | `topics-pro.js` | Faqat professional yo'nalishlar (ABCDE/SAB, O'KS, triaj, immobilizatsiya) — Mutaxassis qalqoni |
 | `algos.js` | Qalqon ichidagi 1–3-bloklar: Holatni aniqlash, Birinchi harakat, Algoritm zanjiri |
 | `quick.js` | **Tezkor qalqon** va **103 gacha** uchun holatlar (qadamlar, qilmang, kuzating, brigadaga ayting) |
-| `drugs.js` | Dorilar. **`dosing` (doza va qo'llash tartibi) ataylab bo'sh** — o'zingiz yozasiz (formatni fayl boshidagi izohdan ko'ring) |
+| `drugs.js`, `documents.js`, `videos.js` | Faqat o'zgarmas toifalar. **Ro'yxatlarning o'zi admin paneldan kiritiladi** (`/admin`): dorilar (dozalash jadvali ataylab bo'sh — o'zingiz yozasiz), hujjatlar (hozirgi 3 ta — namuna), videolar (**YouTube havolasini** qo'ying; Instagram/Telegram havolalari ham bo'ladi). Boshlang'ich nusxa: `server/seed/` |
 | `equipment.js` | Brigada turlari va jihozlar |
-| `documents.js` | Buyruqlar va hujjatlar. Hozirgi 3 ta yozuv — **namuna** (`demo: true`); haqiqiylarini qo'shib, namunalarni o'chiring. PDF fayllarni `assets/docs/` ga qo'ying va `pdf: "assets/docs/fayl.pdf"` yozing |
-| `videos.js` | Video darslar: `youtube: "VIDEO_ID"` yoki `file: "assets/videos/fayl.mp4"` qo'shsangiz, "Tez orada" o'rniga video ochiladi |
 | `questions.js`, `questions-more.js` | Test savollari (154 ta). Har savolda **birinchi variant — to'g'ri javob** (saytda aralashtiriladi). Har qalqon uchun 10 ta savol = Qalqon testi |
 | `shields.js`, `citizen.js` | 11 ta qalqon (rang va belgi) va aholi uchun matnlar |
-| `../config.js` | Ijtimoiy tarmoq havolalari (`telegram`, `instagram`), o'tish bali, test uzunligi |
+| `../config.js` | O'tish bali, test uzunligi, API manzili. Ijtimoiy tarmoq havolalari va telefon — admin panelda (**Sozlamalar**) |
 
 Matn ichida `**qalin**` yozish mumkin.
 

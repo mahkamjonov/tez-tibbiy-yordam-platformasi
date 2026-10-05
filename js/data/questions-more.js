@@ -321,4 +321,12 @@
   q("immobilizatsiya", "Bemorni taxtaga yotqizishda qanday harakat qilinadi?",
     ["Jamoa bilan bir vaqtda, bosh-bo'yin-tana bir o'qda burib", "Yakka o'zi tez ko'tarib", "Boshidan tortib", "Yon tomonga aylantirib"],
     "Kelishilgan harakat umurtqaga qo'shimcha zarar yetkazmaydi.");
+
+  /* ── BRIGADA: IVL (+2) ── */
+  q("brigada", "IVL apparati ishlab turganda bemor birdan yomonlashsa va sabab darrov topilmasa, birinchi harakat qaysi?",
+    ["BVM va kislorodga o'tib, sababni DOPE bo'yicha qidirish", "Apparat parametrlarini keskin oshirish", "Faqat signalni o'chirib qo'yish", "Transportni to'xtatib kutish"],
+    "Apparat sababchi bo'lishi mumkin — avval qo'lda ventilyatsiyaga (BVM + kislorod) o'tib, bemorni ta'minlang, so'ng trubka siljishi, to'siq, pnevmotoraks va uskuna nosozligini tekshiring.");
+  q("brigada", "Ventilyatsiya paytida «DOPE» qisqartmasidagi «P» nimani bildiradi?",
+    ["Pnevmotoraks", "Parametr", "Puls", "Pauza"],
+    "DOPE: Displacement (trubka siljishi), Obstruction (to'siq), Pneumothorax (pnevmotoraks), Equipment (uskuna) — yomonlashgan intubatsiyalangan bemorda tekshiriladi.");
 })();

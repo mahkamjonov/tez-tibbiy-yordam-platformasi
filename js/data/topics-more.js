@@ -316,7 +316,7 @@ TTY.data.topics.push(
       ]
     },
     drugs: [],
-    equipment: ["kislorod", "bvm", "defibrillyator", "aspirator"],
+    equipment: ["kislorod", "bvm", "ivl", "defibrillyator", "aspirator"],
     quiz: "choqish"
   }
 );

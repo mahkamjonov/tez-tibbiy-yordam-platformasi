@@ -266,11 +266,13 @@
           ${ic("arrow_forward")}
         </a>
 
-        <a class="card card--link cert-strip" href="${cfg.examGroup}" target="_blank" rel="noopener" style="margin-top:.75rem">
+        ${TTY.safeUrl(cfg.examGroup) ? html`
+        <a class="card card--link cert-strip" href="${TTY.safeUrl(cfg.examGroup)}" target="_blank" rel="noopener" style="margin-top:.75rem">
           <span class="icon-box" style="--tint:#e0f2fe;--ink:#0284c7">${ic("send", "ms-28")}</span>
           <span class="grow"><strong>Toifa savollariga tayyorgarlik — Telegram guruhi</strong><span class="card__text" style="display:block;margin-top:.15rem">Attestatsiya va toifa imtihoni savollarini birga muhokama qiling, yangiliklardan xabardor bo'ling</span></span>
           ${ic("arrow_forward")}
         </a>
+        ` : ""}
 
         ${group("shield", "Qalqon testlari", "Har qalqon uchun mini-test — barchasidan o'tsangiz sertifikat olasiz")}
         ${group("topic", "Boshqa mavzular", "Shok, jihozlar va dorilar")}

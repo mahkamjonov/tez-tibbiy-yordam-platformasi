@@ -70,7 +70,19 @@
         </div>
       </div>`);
 
+    renderFooter();
+  }
+
+  /* Footer: ijtimoiy tarmoq havolalari va telefon admin paneldan keladi — sozlamalar yuklangach qayta chiziladi.
+   * Bo'sh qoldirilgan havola/raqam ko'rsatilmaydi. */
+  function renderFooter() {
     const s = cfg.social;
+    const links = [
+      { url: TTY.safeUrl(s.telegram), icon: "send", label: "Telegram" },
+      { url: TTY.safeUrl(s.instagram), icon: "photo_camera", label: "Instagram" },
+      { url: TTY.safeUrl(s.youtube), icon: "smart_display", label: "YouTube" }
+    ].filter((l) => l.url);
+    const tel = TTY.telHref(cfg.phone);
     $("#site-footer").innerHTML = String(html`
       <div class="container">
         <div class="footer-note" role="note">
@@ -81,10 +93,10 @@
           <div>
             <div class="footer-brand"><img src="assets/logo-160.png" alt="" width="56" height="56" /><strong>${cfg.siteName}</strong></div>
             <p style="margin-top:.75rem;max-width:34ch;font-size:var(--text-md)">${cfg.tagline} Tibbiyot xodimlari va aholi uchun ishonchli axborot platformasi.</p>
-            <div class="social">
-              <a href="${s.telegram}" target="_blank" rel="noopener">${ic("send", "ms-20")}Telegram</a>
-              <a href="${s.instagram}" target="_blank" rel="noopener">${ic("photo_camera", "ms-20")}Instagram</a>
-            </div>
+            ${links.length || tel ? html`<div class="social">
+              ${links.map((l) => html`<a href="${l.url}" target="_blank" rel="noopener">${ic(l.icon, "ms-20")}${l.label}</a>`)}
+              ${tel ? html`<a href="${tel}">${ic("call", "ms-20")}${cfg.phone}</a>` : ""}
+            </div>` : ""}
           </div>
           <div>
             <div class="footer-title">Tibbiyot xodimlari</div>
@@ -351,13 +363,17 @@
   }
 
   /* ── Yuklash ───────────────────────────────────────── */
-  function start() {
+  async function start() {
     TTY.wireDialogs();
     renderShell();
     wireActions();
+    document.documentElement.classList.add("ready");
+    // Dorilar, hujjatlar, videolar va sozlamalar serverdan olinadi (xato bo'lsa ham sayt ochiladi)
+    try { await TTY.remote.load(); } catch (e) { console.error(e); }
+    searchIndex = null; // qidiruv indeksi yangi ma'lumot bilan qayta quriladi
+    renderFooter();
     window.addEventListener("hashchange", () => render(false));
     render(false);
-    document.documentElement.classList.add("ready");
   }
 
   TTY.show103 = show103;

@@ -74,44 +74,69 @@
     </div>`;
   };
 
+  const CAT_TONE = { serial: "life", talim: "heart", aholi: "breath" };
+  const YT_ID = /^[A-Za-z0-9_-]{11}$/;
+
   C.videoCard = (v) => {
-    const ready = !!(v.youtube || v.file);
-    const poster = v.poster ? html`<img src="${v.poster}" alt="" loading="lazy" />` : "";
-    return html`<button type="button" class="card card--flush card--link video-card tone-${v.tone}" data-video="${v.id}">
+    const yt = YT_ID.test(v.youtube || "") ? v.youtube : "";
+    const link = TTY.safeUrl(v.link);
+    const file = TTY.safeUrl(v.file);
+    const external = !yt && !file && !!link; // Instagram/Telegram va h.k. — yangi oynada ochiladi
+    const ready = !!(yt || file || link);
+    const posterUrl = TTY.safeUrl(v.poster) || (yt ? "https://i.ytimg.com/vi/" + yt + "/hqdefault.jpg" : "");
+    const tone = v.tone || CAT_TONE[v.cat] || "life";
+    const inner = html`
       <span class="video-card__poster">
-        ${poster}
-        <span class="video-card__art" aria-hidden="true">${ic(v.icon, "ms-40")}</span>
-        <span class="video-card__play" aria-hidden="true">${ic(ready ? "play_arrow" : "schedule", "ms-28 fill")}</span>
+        ${posterUrl ? html`<img src="${posterUrl}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : html`<span class="video-card__art" aria-hidden="true">${ic(v.icon || "smart_display", "ms-40")}</span>`}
+        <span class="video-card__play" aria-hidden="true">${ic(external ? "open_in_new" : ready ? "play_arrow" : "schedule", "ms-28 fill")}</span>
         ${ready ? "" : html`<span class="badge badge--dark video-card__soon">Tez orada</span>`}
         ${v.duration ? html`<span class="video-card__time">${v.duration}</span>` : ""}
       </span>
       <span class="video-card__body">
-        <span class="cluster"><span class="badge">${v.part}</span></span>
+        <span class="cluster"><span class="badge">${v.part || (external ? "Havola" : "Video")}</span></span>
         <span class="card__title">${v.title}</span>
-        <span class="card__text clamp-2">${v.desc}</span>
-      </span>
-    </button>`;
+        ${v.desc ? html`<span class="card__text clamp-2">${v.desc}</span>` : ""}
+      </span>`;
+    return external
+      ? html`<a class="card card--flush card--link video-card tone-${tone}" href="${link}" target="_blank" rel="noopener">${inner}</a>`
+      : html`<button type="button" class="card card--flush card--link video-card tone-${tone}" data-video="${v.id}">${inner}</button>`;
   };
 
-  /** Video oynasini ochadi */
+  /** Video oynasini ochadi (YouTube yoki fayl) */
   TTY.openVideo = function (id) {
     const v = TTY.data.videos.find((x) => x.id === id);
     if (!v) return;
+    const yt = YT_ID.test(v.youtube || "") ? v.youtube : "";
+    const file = TTY.safeUrl(v.file);
     let media;
-    if (v.youtube) {
-      media = html`<div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v.youtube}?rel=0" title="${v.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
-    } else if (v.file) {
-      media = html`<div class="video-frame"><video controls playsinline preload="metadata" ${v.poster ? html`poster="${v.poster}"` : ""} src="${v.file}"></video></div>`;
+    if (yt) {
+      media = html`<div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/${yt}?rel=0" title="${v.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+    } else if (file) {
+      media = html`<div class="video-frame"><video controls playsinline preload="metadata" ${v.poster ? html`poster="${TTY.safeUrl(v.poster)}"` : ""} src="${file}"></video></div>`;
     } else {
-      media = html`<div class="empty" style="margin:1rem">${ic("schedule")}<strong>Video tez orada joylanadi</strong><span>Bu dars hozircha tayyorlanmoqda. Yangiliklar uchun ijtimoiy tarmoqlarimizga obuna bo'ling.</span></div>`;
+      media = html`<div class="empty" style="margin:1rem">${ic("schedule")}<strong>Video tez orada joylanadi</strong><span>Bu dars hozircha tayyorlanmoqda.</span></div>`;
     }
-    const dlg = TTY.sheet({
+    return TTY.sheet({
       title: v.title,
       size: "video",
-      body: html`${media}<div style="padding:0 1rem 1rem;color:var(--color-on-dark-2)"><span class="badge" style="margin-bottom:.5rem">${v.part}</span><p>${v.desc}</p></div>`,
+      body: html`${media}<div style="padding:0 1rem 1rem;color:var(--color-on-dark-2)">${v.part ? html`<span class="badge" style="margin-bottom:.5rem">${v.part}</span>` : ""}${v.desc ? html`<p>${v.desc}</p>` : ""}${yt ? html`<p style="margin-top:.75rem"><a class="video-extlink" href="https://www.youtube.com/watch?v=${yt}" target="_blank" rel="noopener">${ic("open_in_new", "ms-18")}YouTube'da ochish</a></p>` : ""}</div>`,
       onClose: () => { const m = document.querySelector("#sheet-body video, #sheet-body iframe"); if (m) m.remove(); }
     });
-    return dlg;
+  };
+
+  /** Bo'sh holat (ma'lumot yo'q yoki yuklanmadi) */
+  C.empty = (icon, title, text) => html`<div class="empty">${ic(icon, "ms-40")}<strong>${title}</strong>${text ? html`<span>${text}</span>` : ""}</div>`;
+
+  /** Admin paneldan kiritilgan ijtimoiy tarmoq tugmalari (bo'sh bo'lsa — "") */
+  C.socialButtons = (cls) => {
+    const s = TTY.config.social;
+    const items = [
+      { url: TTY.safeUrl(s.telegram), icon: "send", label: "Telegram" },
+      { url: TTY.safeUrl(s.instagram), icon: "photo_camera", label: "Instagram" },
+      { url: TTY.safeUrl(s.youtube), icon: "smart_display", label: "YouTube" }
+    ].filter((i) => i.url);
+    if (!items.length) return "";
+    return html`${items.map((i) => html`<a class="${cls}" href="${i.url}" target="_blank" rel="noopener">${ic(i.icon, "ms-20")}${i.label}</a>`)}`;
   };
 
   /** Video kartochkalari uchun umumiy bosish */

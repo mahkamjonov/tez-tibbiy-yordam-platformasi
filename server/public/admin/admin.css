@@ -189,3 +189,8 @@ input, select, textarea { font: inherit; }
   .topbar { flex-wrap: wrap; }
   .tabs { order: 3; width: 100%; }
 }
+
+/* Sozlamalar */
+.settings-h { font-size: 1.05rem; margin: 0 0 0.3rem; }
+.settings-p { font-size: 0.875rem; margin-bottom: 1rem; }
+.settings-form { max-width: 34rem; display: grid; gap: 0.9rem; }

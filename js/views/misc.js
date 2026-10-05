@@ -15,6 +15,18 @@
   /* ── Hujjatlar ── */
   TTY.views.docs = function () {
     const D = TTY.data;
+    if (!D.documents.length) {
+      const failed = TTY.remote.failed("documents");
+      return {
+        title: "Buyruqlar va hujjatlar",
+        nav: "hujjatlar",
+        html: html`<div class="container page">
+          ${C.breadcrumb([{ label: "Bosh sahifa", href: "#/" }, { label: "Hujjatlar" }])}
+          ${C.pageHead("Buyruqlar va hujjatlar", "Tez tibbiy yordamga oid SSV buyruqlari, Prezident va Vazirlar Mahkamasi qarorlari hamda klinik protokollar.")}
+          ${failed ? C.empty("cloud_off", "Hujjatlar yuklanmadi", "Internet aloqasini tekshirib, sahifani yangilang.") : C.empty("description", "Hujjatlar hozircha qo'shilmagan", "Buyruq va qarorlar tez orada shu yerda paydo bo'ladi.")}
+        </div>`
+      };
+    }
     const typeOf = (k) => D.docTypes.find((t) => t.key === k) || { label: k, icon: "description" };
     const hasDemo = D.documents.some((d) => d.demo);
 
@@ -39,8 +51,8 @@
           <ul class="points">${d.memo.map((m) => html`<li>${ic("lightbulb", "ms-20")}<span>${m}</span></li>`)}</ul>
         </details>` : ""}
         <div class="doc-actions no-print">
-          ${d.pdf
-            ? html`<a class="btn btn--primary" href="${d.pdf}" download target="_blank" rel="noopener">${ic("download")}PDF yuklab olish</a>`
+          ${TTY.safeUrl(d.pdf)
+            ? html`<a class="btn btn--primary" href="${TTY.safeUrl(d.pdf)}" download target="_blank" rel="noopener">${ic("download")}PDF yuklab olish</a>`
             : html`<button class="btn btn--ghost" type="button" disabled>${ic("download")}PDF yuklanmagan</button>`}
         </div>
       </article>`;
@@ -97,30 +109,38 @@
   /* ── Video darslar ── */
   TTY.views.videos = function () {
     const D = TTY.data;
-    const s = cfg.social;
+    const has = D.videos.length > 0;
+    const failed = TTY.remote.failed("videos");
+    const social = C.socialButtons("btn btn--primary");
+    const cats = D.videoCats.filter((c) => D.videos.some((v) => v.cat === c.key));
+
+    const list = has
+      ? html`
+        ${cats.length > 1 ? html`<div class="chips" role="group" aria-label="Video toifalari">
+          <button class="chip" type="button" data-cat="all" aria-pressed="true">Barchasi <span class="count">${D.videos.length}</span></button>
+          ${cats.map((c) => html`<button class="chip" type="button" data-cat="${c.key}" aria-pressed="false">${c.label} <span class="count">${D.videos.filter((v) => v.cat === c.key).length}</span></button>`)}
+        </div>` : ""}
+        <div class="grid grid--3" id="video-grid" style="margin-top:1rem">
+          ${D.videos.map((v) => html`<div data-cat="${v.cat}" class="video-cell">${C.videoCard(v)}</div>`)}
+        </div>`
+      : failed
+        ? C.empty("cloud_off", "Video darslar yuklanmadi", "Internet aloqasini tekshirib, sahifani yangilang.")
+        : C.empty("smart_display", "Video darslar tez orada qo'shiladi", "Yangi darslar shu yerda paydo bo'ladi. Yangiliklardan xabardor bo'lish uchun ijtimoiy tarmoqlarimizga obuna bo'ling.");
+
     const page = html`
       <div class="container page">
         ${C.breadcrumb([{ label: "Bosh sahifa", href: "#/" }, { label: "Video darslar" }])}
-        ${C.pageHead("Video darslar", "Tibbiy ta'lim, aholi uchun yo'riqnomalar va tez yordam hayotidan serial. Yangi darslar muntazam qo'shib boriladi.")}
-        <div class="chips" role="group" aria-label="Video toifalari">
-          <button class="chip" type="button" data-cat="all" aria-pressed="true">Barchasi <span class="count">${D.videos.length}</span></button>
-          ${D.videoCats.map((c) => html`<button class="chip" type="button" data-cat="${c.key}" aria-pressed="false">${c.label} <span class="count">${D.videos.filter((v) => v.cat === c.key).length}</span></button>`)}
-        </div>
-        <div class="grid grid--3" id="video-grid" style="margin-top:1rem">
-          ${D.videos.map((v) => html`<div data-cat="${v.cat}" class="video-cell">${C.videoCard(v)}</div>`)}
-        </div>
-        <section class="section">
+        ${C.pageHead("Video darslar", "Tibbiy ta'lim, aholi uchun yo'riqnomalar va tez yordam hayotidan serial.")}
+        ${list}
+        ${social ? html`<section class="section">
           <div class="card card--tint social-card">
             <div class="grow">
               <h2 class="card__title" style="font-size:var(--text-xl)">Yangi darslardan xabardor bo'ling</h2>
-              <p class="card__text" style="margin-top:.25rem">Videolar Instagram va Telegram sahifalarimizda ham e'lon qilinadi.</p>
+              <p class="card__text" style="margin-top:.25rem">Videolar ijtimoiy tarmoqlarimizda ham e'lon qilinadi.</p>
             </div>
-            <div class="cluster">
-              <a class="btn btn--primary" href="${s.instagram}" target="_blank" rel="noopener">${ic("photo_camera", "ms-20")}Instagram</a>
-              <a class="btn btn--primary" href="${s.telegram}" target="_blank" rel="noopener">${ic("send", "ms-20")}Telegram</a>
-            </div>
+            <div class="cluster">${social}</div>
           </div>
-        </section>
+        </section>` : ""}
       </div>`;
     return {
       title: "Video darslar",

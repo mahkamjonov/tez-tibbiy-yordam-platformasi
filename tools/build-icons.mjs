@@ -28,7 +28,7 @@ function scan(dir) {
 }
 scan(join(root, "js"));
 for (const m of readFileSync(join(root, "index.html"), "utf8").matchAll(/class="ms"[^>]*>([a-z0-9_]+)</g)) names.add(m[1]);
-["expand_more", "chevron_right", "close", "search", "warning"].forEach((n) => names.add(n));
+["expand_more", "chevron_right", "close", "search", "warning", "cloud_off", "open_in_new", "play_arrow", "schedule", "smart_display", "link"].forEach((n) => names.add(n));
 
 const list = [...names].sort();
 console.log(`${list.length} ta ikonka:`, list.join(", "));

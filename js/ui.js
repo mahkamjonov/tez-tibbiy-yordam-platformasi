@@ -29,6 +29,20 @@
       .replace(/\s+/g, " ")
       .trim();
 
+  /** Serverdan kelgan havolani xavfsiz qiladi: faqat http(s) yoki nisbiy yo'l (masalan assets/docs/a.pdf). Boshqasi ("javascript:" va h.k.) → "" */
+  const safeUrl = (u) => {
+    const s = String(u == null ? "" : u).trim();
+    if (!s) return "";
+    if (/^[a-z][a-z0-9+.-]*:/i.test(s)) return /^https?:\/\//i.test(s) ? s : "";
+    return s;
+  };
+
+  /** Telefon raqamidan tel: havolasi uchun faqat raqam va boshidagi "+" qoldiradi */
+  const telHref = (p) => {
+    const d = String(p || "").replace(/[^\d+]/g, "").replace(/(?!^)\+/g, "");
+    return d ? "tel:" + d : "";
+  };
+
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -116,7 +130,7 @@
   TTY.views = TTY.views || {};
 
   Object.assign(TTY, {
-    esc, raw, html, rich, ic, norm, $, $$, store, shuffle, plural,
+    esc, raw, html, rich, ic, norm, safeUrl, telHref, $, $$, store, shuffle, plural,
     openDialog, closeDialog, sheet, toast, wireDialogs
   });
 })();

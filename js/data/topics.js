@@ -95,7 +95,7 @@ TTY.data.topics = [
       ]
     },
     drugs: ["adrenalin", "amiodaron", "atropin"],
-    equipment: ["defibrillyator", "bvm", "kislorod", "ekg-monitor"],
+    equipment: ["defibrillyator", "bvm", "ivl", "kislorod", "ekg-monitor"],
     quiz: "yurak"
   },
 
@@ -173,7 +173,7 @@ TTY.data.topics = [
       ]
     },
     drugs: ["salbutamol", "adrenalin", "deksametazon", "furosemid"],
-    equipment: ["kislorod", "bvm", "aspirator", "pulsoksimetr"],
+    equipment: ["kislorod", "bvm", "ivl", "aspirator", "pulsoksimetr"],
     quiz: "nafas"
   },
 
@@ -486,7 +486,7 @@ TTY.data.topics = [
       ]
     },
     drugs: ["atropin", "diazepam"],
-    equipment: ["kislorod", "aspirator", "bvm", "ekg-monitor"],
+    equipment: ["kislorod", "aspirator", "bvm", "ivl", "ekg-monitor"],
     quiz: "zaharlanish"
   },
 

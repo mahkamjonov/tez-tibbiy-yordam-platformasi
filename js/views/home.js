@@ -116,6 +116,7 @@
           </div>
         </section>
 
+        ${D.videos.length ? html`
         <section class="section" aria-labelledby="video-title">
           <div class="section-head">
             <div><h2 id="video-title">Video darslar</h2><p>Real vaziyatlar va klinik texnikalar</p></div>
@@ -123,6 +124,7 @@
           </div>
           <div class="hscroll hscroll--wide">${D.videos.map(C.videoCard)}</div>
         </section>
+        ` : ""}
 
         <section class="section">
           <div class="card card--tint note">
@@ -132,7 +134,7 @@
               <p class="card__text" style="margin-top:.25rem;max-width:var(--measure)">Platforma tibbiyot xodimlarining bilimini oshirish va aholining hayot saqlab qolish ko'nikmalarini rivojlantirish uchun yaratilgan. Ma'lumotlar amaldagi SSV buyruqlari va klinik protokollarga tayanishi kerak; farq bo'lsa, rasmiy hujjat ustuvor.</p>
               <div class="cluster" style="margin-top:1rem">
                 <a class="btn btn--ghost" href="#/hujjatlar">${ic("description", "ms-20")}Hujjatlar</a>
-                <a class="btn btn--ghost" href="${cfg.social.telegram}" target="_blank" rel="noopener">${ic("forum", "ms-20")}Telegram hamjamiyat</a>
+                ${TTY.safeUrl(cfg.social.telegram) ? html`<a class="btn btn--ghost" href="${TTY.safeUrl(cfg.social.telegram)}" target="_blank" rel="noopener">${ic("forum", "ms-20")}Telegram hamjamiyat</a>` : ""}
               </div>
             </div>
           </div>

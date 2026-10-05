@@ -37,7 +37,7 @@ function changePassword(currentPass, newPass) {
   const auth = readAuth();
   if (!bcrypt.compareSync(currentPass, auth.passwordHash)) {
     const err = new Error("Joriy parol noto'g'ri");
-    err.status = 401;
+    err.status = 403; // 401 emas — panel buni "sessiya tugadi" deb tushunib, chiqarib yubormasligi uchun
     throw err;
   }
   if (!newPass || newPass.length < 6) {
