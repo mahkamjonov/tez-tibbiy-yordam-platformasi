@@ -32,9 +32,13 @@ bash tools/deploy.sh server   # faqat backend/admin
 
 `.env` va `data/` serverda qoladi, ustidan yozilmaydi.
 
-## Domen + https ulash (bir martalik)
+## Domen + https ulash (bir martalik) — ✔ 2026-10-05 bajarilgan
+
+Holat: `https://tez-tibbiy-yordam.uz` ishlaydi (Certbot sertifikati avtomatik yangilanadi), Node xizmati faqat `127.0.0.1:3001` da tinglaydi, UFW'da 3001 yopiq. Quyidagilar — qayta o'rnatish kerak bo'lsa uchun.
 
 Domen DNS'da serverning IP'siga (`169.58.44.8`) qarashi kerak (`A` yozuv: `@` va `www`). Tekshirish: `nslookup tez-tibbiy-yordam.uz`.
+
+> Muhim: nginx'da `/api/` va `/admin` uchun `location ^~` ishlatiladi — aks holda `.js/.css` regex qoidasi `/admin/admin.js` ni ushlab, 404 beradi.
 
 ```bash
 # serverda (root):

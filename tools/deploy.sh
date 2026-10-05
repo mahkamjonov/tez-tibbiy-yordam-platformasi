@@ -31,7 +31,7 @@ if [[ "$WHAT" == all || "$WHAT" == site ]]; then
   scp_ "$TMP/site.tgz" "$HOST:/tmp/tty-site.tgz"
   ssh_ "set -e
     rm -rf $REMOTE/site.new && mkdir -p $REMOTE/site.new
-    tar -xzf /tmp/tty-site.tgz -C $REMOTE/site.new && rm -f /tmp/tty-site.tgz
+    tar --no-same-owner -xzf /tmp/tty-site.tgz -C $REMOTE/site.new && rm -f /tmp/tty-site.tgz
     rm -rf $REMOTE/site.old
     [ -d $REMOTE/site ] && mv $REMOTE/site $REMOTE/site.old
     mv $REMOTE/site.new $REMOTE/site
@@ -45,7 +45,7 @@ if [[ "$WHAT" == all || "$WHAT" == server ]]; then
   scp_ "$TMP/server.tgz" "$HOST:/tmp/tty-server.tgz"
   ssh_ "set -e
     mkdir -p $REMOTE/server
-    tar -xzf /tmp/tty-server.tgz -C $REMOTE/server && rm -f /tmp/tty-server.tgz
+    tar --no-same-owner -xzf /tmp/tty-server.tgz -C $REMOTE/server && rm -f /tmp/tty-server.tgz
     cd $REMOTE/server && npm install --omit=dev --no-audit --no-fund 2>&1 | tail -2
     pm2 restart tezyordam-admin --update-env >/dev/null && pm2 save >/dev/null
     echo '  backend qayta ishga tushirildi'"
